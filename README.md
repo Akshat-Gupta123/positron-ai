@@ -1,29 +1,22 @@
-# Welcome to your Lovable project
+# Positron
 
-This project was built with [Lovable](https://lovable.dev).
+## What it is
 
-## Build with Lovable
+Positron is a personal AI chat client. It is BYOK (bring your own key): the browser talks directly to
+OpenRouter with your own API key. There is no backend, no environment variables and no serverless
+functions. Your key and chat history are stored only in your browser's localStorage — this is meant
+for personal use, not for shared or multi-user deployments.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+## How to use
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+1. Open the app.
+2. Click **Settings**.
+3. Paste your OpenRouter API key (get one at https://openrouter.ai/keys).
+4. Pick a model (default `openrouter/free`; e.g. `anthropic/claude-3.5-sonnet`, `openai/gpt-4o`).
+5. Save, then start chatting. Enter sends, Shift+Enter adds a newline. **+ New** clears the thread.
 
-## Development
+## Deploy
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+This project is hosted on Lovable — hit Publish to deploy. To deploy your own copy, connect the
+GitHub repo and build with any static host (Netlify, Cloudflare Pages, GitHub Pages, Vercel).
+No environment variables needed.
