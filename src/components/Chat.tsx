@@ -42,7 +42,7 @@ export function Chat({
   }, [messages, isStreaming]);
 
   const lastAssistantEmpty =
-    isStreaming && messages.length > 0 && messages[messages.length - 1].content === "";
+    isStreaming && messages.length > 0 && messages[messages.length - 1]?.content === "";
 
   return (
     <div ref={ref} className="positron-thread flex-1 overflow-y-auto px-5 pt-6">
