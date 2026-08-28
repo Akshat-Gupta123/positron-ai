@@ -34,21 +34,22 @@ function inline(src: string): string {
 
 export function renderMarkdown(src: string): string {
   const lines = src.replace(/\r\n/g, "\n").split("\n");
+  const L = (n: number): string => lines[n] ?? "";
   const html: string[] = [];
   let i = 0;
 
   const flushList = (ordered: boolean) => {
     const items: string[] = [];
     const re = ordered ? /^\s*\d+\.\s+(.*)$/ : /^\s*[-*]\s+(.*)$/;
-    while (i < lines.length && re.test(lines[i])) {
-      items.push(`<li>${inline(lines[i].match(re)![1])}</li>`);
+    while (i < lines.length && re.test(L(i))) {
+      items.push(`<li>${inline(L(i).match(re)?.[1] ?? "")}</li>`);
       i++;
     }
     html.push(ordered ? `<ol>${items.join("")}</ol>` : `<ul>${items.join("")}</ul>`);
   };
 
   while (i < lines.length) {
-    const line = lines[i];
+    const line = L(i);
 
     if (!line.trim()) {
       i++;
@@ -59,8 +60,8 @@ export function renderMarkdown(src: string): string {
     if (fence) {
       i++;
       const body: string[] = [];
-      while (i < lines.length && !/^\s*```\s*$/.test(lines[i])) {
-        body.push(lines[i]);
+      while (i < lines.length && !/^\s*```\s*$/.test(L(i))) {
+        body.push(L(i));
         i++;
       }
       i++;
@@ -77,16 +78,16 @@ export function renderMarkdown(src: string): string {
 
     const h = line.match(/^(#{1,3})\s+(.*)$/);
     if (h) {
-      const level = h[1].length;
-      html.push(`<h${level}>${inline(h[2])}</h${level}>`);
+      const level = (h[1] ?? "#").length;
+      html.push(`<h${level}>${inline(h[2] ?? "")}</h${level}>`);
       i++;
       continue;
     }
 
     if (/^\s*>\s?/.test(line)) {
       const quote: string[] = [];
-      while (i < lines.length && /^\s*>\s?/.test(lines[i])) {
-        quote.push(lines[i].replace(/^\s*>\s?/, ""));
+      while (i < lines.length && /^\s*>\s?/.test(L(i))) {
+        quote.push(L(i).replace(/^\s*>\s?/, ""));
         i++;
       }
       html.push(`<blockquote>${renderMarkdown(quote.join("\n"))}</blockquote>`);
@@ -105,10 +106,10 @@ export function renderMarkdown(src: string): string {
     const para: string[] = [];
     while (
       i < lines.length &&
-      lines[i].trim() &&
-      !/^\s*(```|#{1,3}\s|>\s?|[-*]\s|\d+\.\s|---\s*$)/.test(lines[i])
+      L(i).trim() &&
+      !/^\s*(```|#{1,3}\s|>\s?|[-*]\s|\d+\.\s|---\s*$)/.test(L(i))
     ) {
-      para.push(lines[i]);
+      para.push(L(i));
       i++;
     }
     html.push(`<p>${inline(para.join("\n")).replace(/\n/g, "<br />")}</p>`);

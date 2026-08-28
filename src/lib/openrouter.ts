@@ -15,7 +15,7 @@ export async function streamChat(opts: {
   try {
     res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      signal,
+      ...(signal ? { signal } : {}),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
