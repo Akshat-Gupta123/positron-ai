@@ -142,3 +142,96 @@
     color: var(--color-foreground);
   }
 }
+
+/* Positron */
+.positron-thread::-webkit-scrollbar {
+  width: 8px;
+}
+.positron-thread::-webkit-scrollbar-thumb {
+  background: #34343f;
+  border-radius: 8px;
+}
+.positron-thread::-webkit-scrollbar-thumb:hover {
+  background: #44444f;
+}
+.positron-thread::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes positron-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.positron-enter {
+  animation: positron-in 200ms ease both;
+}
+
+.positron-md > * + * {
+  margin-top: 0.75rem;
+}
+.positron-md h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.positron-md h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.positron-md h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.positron-md a {
+  color: #00d9ff;
+  text-decoration: underline;
+}
+.positron-md code {
+  background: #15151a;
+  border: 1px solid #2a2a33;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.positron-md pre {
+  background: #15151a;
+  border: 1px solid #2a2a33;
+  border-radius: 12px;
+  padding: 12px 14px;
+  overflow-x: auto;
+}
+.positron-md pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.positron-md ul,
+.positron-md ol {
+  padding-left: 1.25rem;
+}
+.positron-md ul {
+  list-style: disc;
+}
+.positron-md ol {
+  list-style: decimal;
+}
+.positron-md li + li {
+  margin-top: 0.25rem;
+}
+.positron-md blockquote {
+  border-left: 2px solid #34343f;
+  padding-left: 0.85rem;
+  color: #9a9aa8;
+}
+.positron-md hr {
+  border-color: #2a2a33;
+}
+
