@@ -71,10 +71,7 @@ function Positron() {
     if (isStreaming) return;
     const text = input.trim();
     if (!text) return;
-    if (!apiKey) {
-      setShowSettings(true);
-      return;
-    }
+
 
     const userMsg: Message = { id: uid(), role: "user", content: text };
     const assistantId = uid();
