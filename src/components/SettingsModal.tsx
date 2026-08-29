@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { X, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function SettingsModal({
@@ -8,6 +8,8 @@ export function SettingsModal({
   warn,
   onClose,
   onSave,
+  onSignOut,
+  userEmail,
 }: {
   open: boolean;
   apiKey: string;
@@ -15,6 +17,8 @@ export function SettingsModal({
   warn: boolean;
   onClose: () => void;
   onSave: (apiKey: string, model: string) => void;
+  onSignOut?: () => void;
+  userEmail?: string;
 }) {
   const [key, setKey] = useState(apiKey);
   const [mdl, setMdl] = useState(model);
@@ -104,7 +108,19 @@ export function SettingsModal({
           </p>
         </div>
 
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex items-center justify-between gap-3">
+          {onSignOut && userEmail ? (
+            <button
+              onClick={onSignOut}
+              className="flex items-center gap-1.5 rounded-lg border border-[#34343f] px-3 py-2 text-sm text-[#9a9aa8] transition-colors hover:border-red-900/50 hover:text-red-400"
+              title={`Sign out (${userEmail})`}
+            >
+              <LogOut size={14} />
+              Sign out
+            </button>
+          ) : (
+            <span />
+          )}
           <button
             onClick={() => onSave(key.trim(), mdl.trim() || "openrouter/free")}
             className="rounded-lg bg-[#00d9ff] px-[18px] py-[9px] text-sm font-semibold text-[#0d0d10] transition-all duration-150 hover:brightness-110 active:scale-95"
