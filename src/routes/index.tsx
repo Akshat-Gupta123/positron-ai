@@ -52,11 +52,10 @@ function Positron() {
   useEffect(() => {
     setMessages(loadMessages());
     setModel(loadString("model", DEFAULT_MODEL) || DEFAULT_MODEL);
-    const key = loadString("apiKey");
-    setApiKey(key);
+    setApiKey(loadString("apiKey"));
     setReady(true);
-    if (!key) setShowSettings(true);
   }, []);
+
 
   useEffect(() => {
     if (ready) saveMessages(messages);
