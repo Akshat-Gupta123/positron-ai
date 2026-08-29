@@ -54,13 +54,13 @@ export function SettingsModal({
 
         {warn && (
           <p className="mt-4 rounded-lg border border-[#2a2a33] bg-[#15151a] px-3 py-2 text-xs text-[#9a9aa8]">
-            Add your OpenRouter API key to start chatting.
+            Using the built-in server key. Add your own OpenRouter key to use your account instead.
           </p>
         )}
 
         <div className="mt-5">
           <label htmlFor="pos-key" className="text-xs font-medium uppercase tracking-wide text-[#9a9aa8]">
-            OpenRouter API key
+            OpenRouter API key (optional)
           </label>
           <input
             id="pos-key"
@@ -71,6 +71,7 @@ export function SettingsModal({
             placeholder="sk-or-v1-…"
             className="mt-2 w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm text-[#e8e8ee] outline-none transition-colors duration-150 placeholder:text-[#9a9aa8]/60 focus:border-[#00d9ff]"
           />
+
           <p className="mt-2 text-xs text-[#9a9aa8]">
             Get one at{" "}
             <a

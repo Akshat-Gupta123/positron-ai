@@ -52,11 +52,10 @@ function Positron() {
   useEffect(() => {
     setMessages(loadMessages());
     setModel(loadString("model", DEFAULT_MODEL) || DEFAULT_MODEL);
-    const key = loadString("apiKey");
-    setApiKey(key);
+    setApiKey(loadString("apiKey"));
     setReady(true);
-    if (!key) setShowSettings(true);
   }, []);
+
 
   useEffect(() => {
     if (ready) saveMessages(messages);
@@ -72,10 +71,7 @@ function Positron() {
     if (isStreaming) return;
     const text = input.trim();
     if (!text) return;
-    if (!apiKey) {
-      setShowSettings(true);
-      return;
-    }
+
 
     const userMsg: Message = { id: uid(), role: "user", content: text };
     const assistantId = uid();

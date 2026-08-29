@@ -13,22 +13,30 @@ export async function streamChat(opts: {
 
   let res: Response;
   try {
-    res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      ...(signal ? { signal } : {}),
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "",
-        "X-Title": "Positron",
-      },
-      body: JSON.stringify({ model, messages, stream: true, temperature: 0.7 }),
-    });
+    res = apiKey
+      ? await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          ...(signal ? { signal } : {}),
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "",
+            "X-Title": "Positron",
+          },
+          body: JSON.stringify({ model, messages, stream: true, temperature: 0.7 }),
+        })
+      : await fetch("/api/chat", {
+          method: "POST",
+          ...(signal ? { signal } : {}),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model, messages }),
+        });
   } catch (e) {
     if (signal?.aborted) return;
     onError(e instanceof Error ? e.message : "Network error");
     return;
   }
+
 
   if (!res.ok) {
     let body = "";
