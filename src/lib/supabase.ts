@@ -1,10 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Public env vars exposed to the browser (Vite requires the VITE_ prefix).
-const SUPABASE_URL = import.meta.env["VITE_SUPABASE_URL"] as string | undefined;
-const SUPABASE_ANON_KEY = import.meta.env["VITE_SUPABASE_ANON_KEY"] as string | undefined;
+// External Supabase project used for Positron auth + chat history.
+// Publishable keys are safe to ship in client code.
+const SUPABASE_URL =
+  (import.meta.env["VITE_APP_SUPABASE_URL"] as string | undefined) ??
+  "https://sviwdtfgyeposijmekby.supabase.co";
+const SUPABASE_ANON_KEY =
+  (import.meta.env["VITE_APP_SUPABASE_ANON_KEY"] as string | undefined) ??
+  "sb_publishable_DzNif9vzJ2WIm7Lcj7bvVQ_7zG0aZAF";
 
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+
 
 // Database types — matches the schema in schema.sql
 export type DbConversation = {
