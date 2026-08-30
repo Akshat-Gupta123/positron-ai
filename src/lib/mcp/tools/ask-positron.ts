@@ -17,6 +17,7 @@ export default defineTool({
       .describe("OpenRouter model id, e.g. 'openrouter/free'. Defaults to 'openrouter/free'."),
     system: z.string().trim().min(1).optional().describe("Optional system instruction."),
   },
+  outputSchema: { text: z.string(), model: z.string() },
   annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   handler: async ({ prompt, model, system }, ctx) => {
     if (!ctx.isAuthenticated()) {

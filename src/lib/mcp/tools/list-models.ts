@@ -17,6 +17,15 @@ export default defineTool({
     search: z.string().trim().min(1).optional().describe("Case-insensitive filter on model id/name."),
     limit: z.number().int().min(1).max(50).optional().describe("Max models to return (default 20)."),
   },
+  outputSchema: {
+    models: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        contextLength: z.number().nullable(),
+      }),
+    ),
+  },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
   handler: async ({ search, limit }, ctx) => {
     if (!ctx.isAuthenticated()) {
