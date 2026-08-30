@@ -29,7 +29,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const { next } = Route.useSearch();
+  const next = Route.useSearch()["next"];
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

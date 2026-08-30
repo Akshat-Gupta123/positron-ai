@@ -68,7 +68,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
 
 function Consent() {
   const details = Route.useLoaderData();
-  const { authorization_id } = Route.useSearch();
+  const authorizationId = Route.useSearch()["authorization_id"];
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const clientName = details?.client?.name ?? "this client";
@@ -78,8 +78,8 @@ function Consent() {
     setBusy(true);
     setError(null);
     const { data, error: err } = approve
-      ? await oauth().approveAuthorization(authorization_id)
-      : await oauth().denyAuthorization(authorization_id);
+      ? await oauth().approveAuthorization(authorizationId)
+      : await oauth().denyAuthorization(authorizationId);
     if (err) {
       setBusy(false);
       setError(err.message);
