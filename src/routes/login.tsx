@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { lovable } from "@/integrations/lovable/index";
 import { supabase } from "@/integrations/supabase/client";
 
 function safeNext(value: unknown): string {
@@ -17,10 +16,10 @@ export const Route = createFileRoute("/login")({
       { title: "Sign in — Positron" },
       {
         name: "description",
-        content: "Sign in to Positron to authorize agent integrations and connected AI clients.",
+        content: "Sign in to Positron to access your chat history and connected AI clients.",
       },
       { property: "og:title", content: "Sign in — Positron" },
-      { property: "og:description", content: "Sign in to Positron to authorize connected AI clients." },
+      { property: "og:description", content: "Sign in to Positron to access your chat history and connected AI clients." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
   const next = Route.useSearch()["next"];
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -63,14 +61,6 @@ function Login() {
     window.location.href = returnUrl;
   }
 
-  async function onGoogle() {
-    setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: returnUrl });
-    if (result.error) return setError(result.error.message ?? "Google sign-in failed.");
-    if (result.redirected) return;
-    void navigate({ to: next });
-  }
-
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#0d0d10] px-4 text-[#e8e8ee]">
       <div className="w-full max-w-[400px] rounded-2xl border border-[#34343f] bg-[#1a1a20] p-6">
@@ -84,10 +74,12 @@ function Login() {
           <span className="font-medium text-white">Positron</span>
         </div>
         <h1 className="mt-4 text-xl font-semibold">
-          {mode === "signin" ? "Sign in" : "Create an account"}
+          {mode === "signin" ? "Welcome back." : "Create your account."}
         </h1>
         <p className="mt-1 text-sm text-[#9a9aa8]">
-          Signing in lets you authorize AI clients to use Positron as you.
+          {mode === "signin"
+            ? "Sign in to access your conversations and connected AI clients."
+            : "Your chats will sync across devices."}
         </p>
 
         {error && (
@@ -108,6 +100,7 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
+            autoComplete="email"
             className="w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm outline-none focus:border-[#00d9ff]"
           />
           <input
@@ -117,6 +110,7 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            autoComplete={mode === "signin" ? "current-password" : "new-password"}
             className="w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm outline-none focus:border-[#00d9ff]"
           />
           <button
@@ -124,22 +118,17 @@ function Login() {
             disabled={busy}
             className="rounded-lg bg-[#00d9ff] px-4 py-2.5 text-sm font-semibold text-[#0d0d10] transition-all duration-150 hover:brightness-110 active:scale-95 disabled:opacity-50"
           >
-            {mode === "signin" ? "Sign in" : "Sign up"}
+            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </button>
         </form>
-
-        <button
-          onClick={onGoogle}
-          className="mt-3 w-full rounded-lg border border-[#34343f] bg-[#15151a] px-4 py-2.5 text-sm text-[#e8e8ee] transition-colors duration-150 hover:border-[#00d9ff]"
-        >
-          Continue with Google
-        </button>
 
         <button
           onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
           className="mt-4 w-full text-xs text-[#9a9aa8] hover:text-[#e8e8ee]"
         >
-          {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
+          {mode === "signin"
+            ? "No account yet? Sign up instead."
+            : "Already have an account? Sign in instead."}
         </button>
       </div>
     </main>
