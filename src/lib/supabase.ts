@@ -2,12 +2,17 @@ import { createClient } from "@supabase/supabase-js";
 
 // External Supabase project used for Positron auth + chat history.
 // Publishable keys are safe to ship in client code.
+//
+// Required env vars (set in .env.local):
+//   VITE_SUPABASE_URL         — e.g. https://your-project.supabase.co
+//   VITE_SUPABASE_ANON_KEY    — the anon/publishable key from Supabase Settings → API
+//   VITE_SUPABASE_PROJECT_ID  — the project ref (e.g. "abc123") for MCP OAuth issuer
+//
+// See .env.example for the full template.
 const SUPABASE_URL =
-  (import.meta.env["VITE_APP_SUPABASE_URL"] as string | undefined) ??
-  "https://sviwdtfgyeposijmekby.supabase.co";
+  (import.meta.env["VITE_SUPABASE_URL"] as string | undefined) ?? "";
 const SUPABASE_ANON_KEY =
-  (import.meta.env["VITE_APP_SUPABASE_ANON_KEY"] as string | undefined) ??
-  "sb_publishable_DzNif9vzJ2WIm7Lcj7bvVQ_7zG0aZAF";
+  (import.meta.env["VITE_SUPABASE_ANON_KEY"] as string | undefined) ?? "";
 
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
@@ -37,7 +42,7 @@ let _client: ReturnType<typeof createClient> | null = null;
 export function getSupabase() {
   if (!isSupabaseConfigured) {
     throw new Error(
-      "Supabase env vars missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local.",
+      "Supabase env vars missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local. See .env.example for the full list.",
     );
   }
   if (!_client) {

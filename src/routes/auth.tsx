@@ -28,7 +28,8 @@ export function AuthPage() {
           <p className="mt-3 text-sm text-[#9a9aa8]">
             Supabase is not configured. Add <code className="rounded bg-[#15151a] px-1">VITE_SUPABASE_URL</code> and{" "}
             <code className="rounded bg-[#15151a] px-1">VITE_SUPABASE_ANON_KEY</code> to your{" "}
-            <code className="rounded bg-[#15151a] px-1">.env.local</code> file to enable auth.
+            <code className="rounded bg-[#15151a] px-1">.env.local</code> file to enable auth. See{" "}
+            <code className="rounded bg-[#15151a] px-1">.env.example</code> for the full template.
           </p>
         </div>
       </div>
