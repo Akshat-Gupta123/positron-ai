@@ -11,7 +11,7 @@ function safeNext(value: unknown): string {
 
 export const Route = createFileRoute("/login")({
   ssr: false,
-  validateSearch: (s: Record<string, unknown>) => ({ next: safeNext(s.next) }),
+  validateSearch: (s: Record<string, unknown>) => ({ next: safeNext(s["next"]) }),
   head: () => ({
     meta: [
       { title: "Sign in — Positron" },
