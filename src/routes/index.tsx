@@ -72,6 +72,35 @@ function PositronApp() {
   const pendingAssistantIdRef = useRef<string | null>(null);
   const lastSaveRef = useRef(0);
 
+  // Listen for model changes from the composer's model picker
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const v = (e as CustomEvent<string>).detail;
+      if (v) {
+        setModel(v);
+        saveString("model", v);
+      }
+    };
+    window.addEventListener("positron:model-change", handler);
+    return () => window.removeEventListener("positron:model-change", handler);
+  }, []);
+
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "N") {
+        e.preventDefault();
+        void handleNewChat();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
+        e.preventDefault();
+        textareaRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   // Auth guard — redirect to /auth if not logged in
   useEffect(() => {
     if (!loading && configured && !user) {
@@ -375,6 +404,19 @@ function UnauthenticatedApp() {
   const abortRef = useRef<AbortController | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  // Listen for model changes from composer's model picker
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const v = (e as CustomEvent<string>).detail;
+      if (v) {
+        setModel(v);
+        saveString("model", v);
+      }
+    };
+    window.addEventListener("positron:model-change", handler);
+    return () => window.removeEventListener("positron:model-change", handler);
+  }, []);
+
   useEffect(() => {
     setMessages(loadMessages());
     setModel(loadString("model", DEFAULT_MODEL) || DEFAULT_MODEL);
@@ -439,6 +481,22 @@ function UnauthenticatedApp() {
     setInput("");
     textareaRef.current?.focus();
   };
+
+  // Global keyboard shortcuts (mount after newChat is defined)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "N") {
+        e.preventDefault();
+        newChat();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
+        e.preventDefault();
+        textareaRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const pickSuggestion = (text: string) => {
     setInput(text);

@@ -57,19 +57,25 @@ export function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0d0d10] px-4">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0d0d10] px-4">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="auth-glow auth-glow-1" />
+        <div className="auth-glow auth-glow-2" />
+      </div>
+
       {/* Logo */}
-      <div className="absolute left-1/2 top-12 -translate-x-1/2 flex items-center gap-2">
+      <div className="absolute left-1/2 top-10 -translate-x-1/2 flex items-center gap-2">
         <span
           className="text-2xl font-semibold italic text-[#00d9ff]"
-          style={{ fontFamily: '"Times New Roman", Times, serif' }}
+          style={{ fontFamily: '"Times New Roman", Times, serif', textShadow: "0 0 24px rgba(0,217,255,0.5)" }}
         >
           e
         </span>
         <span className="font-medium text-white">Positron</span>
       </div>
 
-      <div className="w-full max-w-sm">
+      <div className="relative w-full max-w-sm">
         {/* Card */}
         <div className="rounded-2xl border border-[#2a2a33] bg-[#15151a] p-8 shadow-2xl">
           <h2 className="text-xl font-semibold text-[#e8e8ee]">
@@ -97,7 +103,7 @@ export function AuthPage() {
                 placeholder="you@example.com"
                 required
                 autoComplete="email"
-                className="mt-1.5 w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm text-[#e8e8ee] outline-none transition-colors placeholder:text-[#9a9aa8]/50 focus:border-[#00d9ff]"
+                className="mt-1.5 w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm text-[#e8e8ee] outline-none transition-all placeholder:text-[#9a9aa8]/50 focus:border-[#00d9ff] focus:shadow-[0_0_0_3px_rgba(0,217,255,0.1)]"
               />
             </div>
 
@@ -117,7 +123,7 @@ export function AuthPage() {
                 required
                 minLength={6}
                 autoComplete={mode === "signin" ? "current-password" : "new-password"}
-                className="mt-1.5 w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm text-[#e8e8ee] outline-none transition-colors placeholder:text-[#9a9aa8]/50 focus:border-[#00d9ff]"
+                className="mt-1.5 w-full rounded-lg border border-[#34343f] bg-[#0d0d10] px-3 py-2.5 text-sm text-[#e8e8ee] outline-none transition-all placeholder:text-[#9a9aa8]/50 focus:border-[#00d9ff] focus:shadow-[0_0_0_3px_rgba(0,217,255,0.1)]"
               />
             </div>
 
@@ -136,7 +142,7 @@ export function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-[#00d9ff] py-2.5 text-sm font-semibold text-[#0d0d10] transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-lg bg-[#00d9ff] py-2.5 text-sm font-semibold text-[#0d0d10] shadow-[0_2px_12px_rgba(0,217,255,0.25)] transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading
                 ? "Please wait…"
@@ -162,7 +168,7 @@ export function AuthPage() {
         </div>
 
         {/* Powered by */}
-        <p className="mt-6 text-center text-xs text-[#9a9aa8]/50">
+        <p className="mt-6 text-center text-xs text-[#9a9aa8]/40">
           Powered by OpenRouter · Chat history synced via Supabase
         </p>
       </div>
