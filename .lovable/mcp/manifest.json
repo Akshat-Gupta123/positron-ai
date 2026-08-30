@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "sdk_version": "0.28.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://pdellqvuzikkicmsqkbg.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "positron-chat-companion",
+      "version": "0.1.0",
+      "title": "Positron Chat Companion"
+    },
+    "tools": [
+      {
+        "name": "ask_positron",
+        "title": "Ask Positron",
+        "description": "Send a prompt to Positron and get a completion back from the chosen OpenRouter model.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The question or instruction to send."
+            },
+            "model": {
+              "description": "OpenRouter model id, e.g. 'openrouter/free'. Defaults to 'openrouter/free'.",
+              "type": "string",
+              "minLength": 1
+            },
+            "system": {
+              "description": "Optional system instruction.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "prompt"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_models",
+        "title": "List models",
+        "description": "List the OpenRouter models Positron can chat with, optionally filtered by name.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "search": {
+              "description": "Case-insensitive filter on model id/name.",
+              "type": "string",
+              "minLength": 1
+            },
+            "limit": {
+              "description": "Max models to return (default 20).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
